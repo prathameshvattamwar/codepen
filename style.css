@@ -44,6 +44,7 @@ button {
 
 .resizable {
     position: relative;
+    overflow: hidden;
 }
 
 .resizable::after {
@@ -73,3 +74,13 @@ select {
 .cm-s-default .cm-tag{
     color: #20de00 !important;
 }
+
+@media screen and (max-width:768px) {
+    .mobileView button{
+        margin-top: 10px;
+    }
+    select{
+        margin-top: 10px;
+    }
+}
+
