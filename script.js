@@ -137,6 +137,16 @@ function toggleFullScreen() {
     }
 }
 
+// Auto-save and auto-run every 3 seconds after keyup
+let keyupTimer;
+function startAutosaveAndRun() {
+    clearTimeout(keyupTimer);
+    keyupTimer = setTimeout(() => {
+        saveCode();
+        runCode();
+    }, 2000);
+}
+
 // Event listeners
 document.getElementById("runCode").addEventListener("click", runCode);
 document.getElementById("saveCode").addEventListener("click", saveCode);
@@ -147,16 +157,19 @@ document.getElementById("importCode").addEventListener("change", importCode);
 document.getElementById("themeSelector").addEventListener("change", changeTheme);
 document.getElementById("fullScreenToggle").addEventListener("click", toggleFullScreen);
 
+// Add keyup event listener to CodeMirror instances
+htmlEditor.on("keyup", startAutosaveAndRun);
+cssEditor.on("keyup", startAutosaveAndRun);
+jsEditor.on("keyup", startAutosaveAndRun);
+
 // Load code from local storage on page load
 window.onload = loadCode;
 
-// Auto-save code every 5 seconds
-setInterval(saveCode, 5000);
-
 // Make editors resizable
 $('.resizable').resizable({
-    handles: 'e, s',
+    handles: 'e',
     minWidth: 100,
+    minHeight: 300,
     resize: function () {
         htmlEditor.refresh();
         cssEditor.refresh();
